@@ -15,9 +15,6 @@ class Dashboard(ListView):
 	def get_queryset(self):
 		today = date.today()
 		queryset = Alert.objects.filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day)
-		# Alert_sms = Alert.objects.filter(date__year=today.year, date__month=today.month, date__day=today.day)
-		# print(Alert_sms)
-		#print(alert_sms)
 		return queryset
 
 	def get_context_data(self, **kwargs):

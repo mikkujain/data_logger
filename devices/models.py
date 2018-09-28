@@ -26,7 +26,7 @@ class Ports(models.Model):
 class Data(models.Model):
 	port = models.ForeignKey(Ports, on_delete=models.CASCADE)
 	value = models.IntegerField()
-	datetime = models.DateTimeField(auto_now_add=True)
+	datetime = models.DateTimeField(auto_now_add=True, blank=True)
 
 	def __str__(self):
 		return 'port {} value {} datetime {}'.format(self.port, self.value, self.datetime.strftime("%Y-%m-%d %I:%M %p"))
