@@ -11,7 +11,8 @@ class Dashboard(ListView):
 	template_name = "dashboard.html"
 
 	def get_queryset(self):
-		queryset = Alert.objects.all()
+		queryset = Alert.objects.filter()[:4]
+
 		return queryset
 
 	def get_context_data(self, **kwargs):
