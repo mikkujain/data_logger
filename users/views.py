@@ -6,12 +6,18 @@ from django.http import HttpResponse
 from django.views.generic import ListView
 from devices.models import *
 
+from datetime import date
+
 class Dashboard(ListView):
 	mode = (Devices, Alert, Mobile)
 	template_name = "dashboard.html"
 
 	def get_queryset(self):
-		queryset = Alert.objects.all()
+		today = date.today()
+		queryset = Alert.objects.filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day)
+		# Alert_sms = Alert.objects.filter(date__year=today.year, date__month=today.month, date__day=today.day)
+		# print(Alert_sms)
+		#print(alert_sms)
 		return queryset
 
 	def get_context_data(self, **kwargs):

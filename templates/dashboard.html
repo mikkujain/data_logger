@@ -59,7 +59,7 @@
                         <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-messages">
-                        {% for a in alert_list %}
+                        {% for a in alert_list|slice:":4" %}
                         <li>
                             <a href="#">
                                 <div>
@@ -366,8 +366,8 @@
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">26</div>
-                                    <div>New Comments!</div>
+                                    <div class="huge">{{ alert_list|length }}</div>
+                                    <div>Today's SMS</div>
                                 </div>
                             </div>
                         </div>
