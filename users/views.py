@@ -5,13 +5,15 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import ListView
 from devices.models import *
+from django.utils.timezone import datetime #important if using timezones
 
 class Dashboard(ListView):
-	mode = (Devices, Alert, Mobile)
+	model = (Devices, Alert, Mobile)
 	template_name = "dashboard.html"
 
 	def get_queryset(self):
-		queryset = Alert.objects.filter()[:4]
+		today = datetime.today()
+		queryset = Alert.objects.filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day)
 
 		return queryset
 
