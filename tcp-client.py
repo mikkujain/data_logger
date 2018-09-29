@@ -2,21 +2,6 @@
 
 import socket
 
-# from devices.models import Devices, Ports, Data, Mobile, Alert
-
-# def data(self):
-# 	queryset = Alert.objects.filter()[:4]
-# 	s.sendall(queryset.encode('utf-8'))
-
-# s.close()
-
-# if __name__ == "__main__":
-# 	s = socket.socket()
-# 	
-# 	port = 8000
-
-# 	s.connect((host,port))
-
 
 s = socket.socket()
 host = socket.gethostname()
@@ -39,3 +24,4 @@ f.close()
 # s.sendall(var.encode('utf-8'))
 
 s.close()
+

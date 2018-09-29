@@ -15,8 +15,8 @@ class Dashboard(ListView):
 	template_name = "dashboard.html"
 
 	def get_queryset(self):
-		today = datetime.today()
-		queryset = Ports.objects.filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day)
+		today = date.today()
+		queryset = Alert.objects.filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day)
 		return queryset
 
 	def get_context_data(self, **kwargs):
