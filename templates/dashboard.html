@@ -27,6 +27,10 @@
     <!-- Custom Fonts -->
     <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
 
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+    </script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -385,11 +389,11 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
+                                    <i class="fa fa-long-arrow-down fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
-                                    <div>New Tasks!</div>
+                                    <div class="huge">{{ min_level }}</div>
+                                    <div>Today's Minimum</div>
                                 </div>
                             </div>
                         </div>
@@ -407,11 +411,11 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-shopping-cart fa-5x"></i>
+                                    <i class="fa fa-bar-chart fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
-                                    <div>New Orders!</div>
+                                    <div class="huge">{{ avg_level }}</div>
+                                    <div>Average Level</div>
                                 </div>
                             </div>
                         </div>
@@ -429,11 +433,11 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-support fa-5x"></i>
+                                    <i class="fa fa-long-arrow-up fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">{{ alert_list|length }}</div>
-                                        <div>Today's alert</div>
+                                    <div class="huge">{{ max_level }}</div>
+                                        <div>Today's Max</div>
                                 </div>
                             </div>
                         </div>
@@ -477,12 +481,15 @@
                         <div class="panel-body">
                             <div id="morris-area-chart"></div>
                         </div>
+                        <!-- <div class="col-lg-12">
+                            {{ chart.as_html }}
+                        </div> -->
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Bar Chart Example
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Today's Table
                             <div class="pull-right">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -506,75 +513,33 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-12">
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-hover table-striped">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Date</th>
-                                                    <th>Time</th>
+                                                    <th>Date Time</th>
                                                     <th>Amount</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>3326</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>3:29 PM</td>
-                                                    <td>$321.33</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3325</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>3:20 PM</td>
-                                                    <td>$234.34</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3324</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>3:03 PM</td>
-                                                    <td>$724.17</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3323</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>3:00 PM</td>
-                                                    <td>$23.71</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3322</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>2:49 PM</td>
-                                                    <td>$8345.23</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3321</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>2:23 PM</td>
-                                                    <td>$245.12</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3320</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>2:15 PM</td>
-                                                    <td>$5663.54</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3319</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>2:13 PM</td>
-                                                    <td>$943.45</td>
-                                                </tr>
+                                                {% for d in data_list %}
+                                                    <tr>
+                                                        <td>{{ d.id }}</td>
+                                                        <td>{{ d.datetime }}</td>
+                                                        <td>{{ d.value }}</td>
+                                                    </tr>
+                                                {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
                                     <!-- /.table-responsive -->
                                 </div>
                                 <!-- /.col-lg-4 (nested) -->
-                                <div class="col-lg-8">
+                                <!-- <div class="col-lg-8">
                                     <div id="morris-bar-chart"></div>
-                                </div>
+                                </div> -->
                                 <!-- /.col-lg-8 (nested) -->
                             </div>
                             <!-- /.row -->
@@ -705,8 +670,8 @@
                         <div class="panel-body">
                             <div class="list-group">
                                 <a href="#" class="list-group-item">
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small"><em>4 minutes ago</em>
+                                    <i class="fa fa-comment fa-fw"></i> Recent sms
+                                    <span class="pull-right text-muted small"><em>{{ last_sms }}</em>
                                     </span>
                                 </a>
                                 <a href="#" class="list-group-item">
@@ -906,7 +871,71 @@
     <!-- Morris Charts JavaScript -->
     <script src="{% static 'vendor/raphael/raphael.min.js' %}"></script>
     <script src="{% static 'vendor/morrisjs/morris.min.js' %}"></script>
-    <script src="{% static 'data/morris-data.js' %}"></script>
+    <script>
+    $(function() {
+        Morris.Area({
+            element: 'morris-area-chart',
+            data: [{
+                period: '2010 Q1',
+                iphone: 2666,
+                ipad: null,
+                itouch: 2647
+            }, {
+                period: '2010 Q2',
+                iphone: 2778,
+                ipad: 2294,
+                itouch: 2441
+            }, {
+                period: '2010 Q3',
+                iphone: 4912,
+                ipad: 1969,
+                itouch: 2501
+            }, {
+                period: '2010 Q4',
+                iphone: 3767,
+                ipad: 3597,
+                itouch: 5689
+            }, {
+                period: '2011 Q1',
+                iphone: 6810,
+                ipad: 1914,
+                itouch: 2293
+            }, {
+                period: '2011 Q2',
+                iphone: 5670,
+                ipad: 4293,
+                itouch: 1881
+            }, {
+                period: '2011 Q3',
+                iphone: 4820,
+                ipad: 3795,
+                itouch: 1588
+            }, {
+                period: '2011 Q4',
+                iphone: 15073,
+                ipad: 5967,
+                itouch: 5175
+            }, {
+                period: '2012 Q1',
+                iphone: 10687,
+                ipad: 4460,
+                itouch: 2028
+            }, {
+                period: '2012 Q2',
+                iphone: 8432,
+                ipad: 5713,
+                itouch: 1791
+            }],
+            xkey: 'period',
+            ykeys: ['iphone', 'ipad', 'itouch'],
+            labels: ['iPhone', 'iPad', 'iPod Touch'],
+            pointSize: 2,
+            hideHover: 'auto',
+            resize: true
+        });
+    });
+</script>
+    <!-- <script src="{% static 'data/morris-data.js' %}"></script> -->
 
     <!-- Custom Theme JavaScript -->
     <script src="{% static 'dist/js/sb-admin-2.js' %}"></script>

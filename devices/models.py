@@ -33,7 +33,7 @@ class Data(models.Model):
 	datetime = models.DateTimeField(default=datetime.now, blank=True)
 
 	def __str__(self):
-		return 'port {} value {} datetime {}'.format(self.port, self.value, self.datetime.strftime("%Y-%m-%d %I:%M %p"))
+		return 'port {} value {} at {}'.format(self.port, self.value, self.datetime.strftime("%Y-%m-%d %I:%M %p"))
 
 	def TodaysAlert(self):
 		today = datetime.today()
