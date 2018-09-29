@@ -22,5 +22,6 @@ while True:
 			values[p[0]] = dic[p[1]]
 		print("values", values)
 		createData(values)
+		print("created data")
 	c.close()
 

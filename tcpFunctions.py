@@ -1,6 +1,7 @@
 import sqlite3
 conn = sqlite3.connect("db.sqlite3")
-cur = conn.cursor
+from datetime import datetime
+import time
 
 def getPorts(did):
 	c = conn.cursor()
@@ -25,6 +26,13 @@ def getDevice(did):
 def createData(value):
 	c = conn.cursor()
 	for key, val in value.items():
-		c = c.execute("insert into devices_data ('port_id', 'value', 'datetime') values ({}, {})".format(key, val, ''))
-		c.commit()
+		sql = """insert into devices_data ('port_id', 'value', 'datetime') values (?, ?, ?);"""
+		print(sql,(key, str(val), time.strftime('%Y-%m-%d %H:%M:%S')))
+		try:
+			c.execute(sql,(key, str(val), time.strftime('%Y-%m-%d %H:%M:%S')))
+		except Exception as e:
+			print(e)
+		conn.commit()
+		print("commited")
 	c.close()
+	print("closed")
