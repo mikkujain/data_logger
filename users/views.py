@@ -10,7 +10,7 @@ from django.db.models import Max, Min, Avg
 from datetime import date
 
 from graphos.sources.simple import SimpleDataSource
-from graphos.renderers.gchart import LineChart
+from graphos.renderers import gchart
 
 class Dashboard(ListView):
 	model = (Devices, Mobile, Sms, Ports, Data)
@@ -25,21 +25,16 @@ class Dashboard(ListView):
 		today = datetime.today()
 		# Call the base implementation first to get a context
 		context = super(Dashboard, self).get_context_data(**kwargs)
-		# Add in a QuerySet of all the books
 		context['mobile'] = Mobile.objects.all()
 		context["sms"] = Sms.objects.filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day)
 		context["max_level"] = context["data_list"].aggregate(Max('value'))["value__max"]
 		context["min_level"] = context["data_list"].aggregate(Min('value'))["value__min"]
 		context["avg_level"] = context["data_list"].aggregate(Avg('value'))["value__avg"]
-		context["last_sms"] = context["sms"].latest("datetime").datetime
-		data =  [
-				['Year', 'Sales', 'Expenses'],
-				[2004, 1000, 400],
-				[2005, 1170, 460],
-				[2006, 660, 1120],
-				[2007, 1030, 540]
-			]
-		chart = LineChart(SimpleDataSource(data=data), width="100%")
+		context["today_alert_times"] = len([i for i in context['data_list'] if i.value > i.port.alert_level])
+		#context["last_sms"] = context["sms"].latest("datetime").datetime
+		data = [['DateTime', 'Water']]
+		for i in context['data_list']:
+			data.append([i.datetime.strftime("%d/%m/%y %H:%I %p"), i.value])
+		chart = gchart.ColumnChart(SimpleDataSource(data=data), options={'title': 'Water Level'})
 		context["chart"] = chart
-		print(context)
 		return context
