@@ -26,7 +26,7 @@ class Dashboard(ListView):
 		# Call the base implementation first to get a context
 		context = super(Dashboard, self).get_context_data(**kwargs)
 		context['mobile'] = Mobile.objects.all()
-		context["sms"] = Sms.objects.filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day)
+		context["sms"] = Sms.objects.filter(data__datetime__year=today.year, data__datetime__month=today.month, data__datetime__day=today.day)
 		context["max_level"] = context["data_list"].aggregate(Max('value'))["value__max"]
 		context["min_level"] = context["data_list"].aggregate(Min('value'))["value__min"]
 		context["avg_level"] = context["data_list"].aggregate(Avg('value'))["value__avg"]
