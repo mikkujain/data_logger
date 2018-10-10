@@ -9,6 +9,7 @@ dic = {}
 while True:
 	c, addr = s.accept()
 	data = c.recv(1024)
+	print("data", data)
 	data = data.decode('utf-8').split(";")
 	for i in data:
 		try:

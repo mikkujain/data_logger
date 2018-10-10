@@ -32,9 +32,11 @@ class Dashboard(ListView):
 		context["avg_level"] = context["data_list"].aggregate(Avg('value'))["value__avg"]
 		context["today_alert_times"] = len([i for i in context['data_list'] if i.value > i.port.alert_level])
 		#context["last_sms"] = context["sms"].latest("datetime").datetime
-		data = [['DateTime', 'Water']]
-		for i in context['data_list']:
-			data.append([i.datetime.strftime("%d/%m/%y %H:%I %p"), i.value])
-		chart = gchart.ColumnChart(SimpleDataSource(data=data), options={'title': 'Water Level'})
-		context["chart"] = chart
+		data = []
+		if context['data_list']:
+			data = [['DateTime', 'Water']]
+			for i in context['data_list']:
+				data.append([i.datetime.strftime("%d/%m/%y %H:%I %p"), i.value])
+			chart = gchart.LineChart(SimpleDataSource(data=data), options={'title': 'Water Level'}, height=400, width=600)
+			context["chart"] = chart
 		return context
