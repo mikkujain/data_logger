@@ -27,11 +27,9 @@ class Dashboard(LoginRequiredMixin, ListView):
 		endd = self.request.GET.get('end-date')
 		# Call the base implementation first to get a context
 		context = super(Dashboard, self).get_context_data(**kwargs)
-		print(context)
 		if self.request.GET.get('date'):
 			try:
 				today = datetime.strptime(self.request.GET.get('date'), '%Y-%m-%d').date()
-				print("today in if", today.month, today.day, today.year)
 				context["data_list"] = context["data_list"].filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day).order_by("datetime")
 			except Exception as e:
 				context['errors'] = ["Invalid Date Format Selected"]
