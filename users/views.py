@@ -7,26 +7,45 @@ from django.views.generic import ListView
 from devices.models import *
 from django.utils.timezone import datetime #important if using timezones
 from django.db.models import Max, Min, Avg
-from datetime import date
+from datetime import date, datetime
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from graphos.sources.simple import SimpleDataSource
 from graphos.renderers import gchart
 
-class Dashboard(ListView):
+class Dashboard(LoginRequiredMixin, ListView):
 	model = (Devices, Mobile, Sms, Ports, Data)
 	template_name = "dashboard.html"
+	login_url = '/'
 
 	def get_queryset(self):
-		today = date.today()
-		queryset = Data.objects.filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day).order_by("datetime")
+		queryset = Data.objects.all()
 		return queryset
 
 	def get_context_data(self, **kwargs):
-		today = datetime.today()
+		startd = self.request.GET.get('start-date')
+		endd = self.request.GET.get('end-date')
 		# Call the base implementation first to get a context
 		context = super(Dashboard, self).get_context_data(**kwargs)
+		print(context)
+		if self.request.GET.get('date'):
+			try:
+				today = datetime.strptime(self.request.GET.get('date'), '%Y-%m-%d').date()
+				print("today in if", today.month, today.day, today.year)
+				context["data_list"] = context["data_list"].filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day).order_by("datetime")
+			except Exception as e:
+				context['errors'] = ["Invalid Date Format Selected"]
+		elif startd and endd:
+			try:
+				startd = datetime.strptime(startd, '%Y-%m-%d').date()
+				endd = datetime.strptime(endd, '%Y-%m-%d').date()
+				context["data_list"] = context["data_list"].filter(datetime__date__range=[startd, endd])
+			except Exception as e:
+				context['errors'] = ["Invalid Date Format Selected"]
+		else:
+			today = datetime.today()
+			context["data_list"] = context["data_list"].filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day).order_by("datetime")
 		context['mobile'] = Mobile.objects.all()
-		context["sms"] = Sms.objects.filter(data__datetime__year=today.year, data__datetime__month=today.month, data__datetime__day=today.day)
 		context["max_level"] = context["data_list"].aggregate(Max('value'))["value__max"]
 		context["min_level"] = context["data_list"].aggregate(Min('value'))["value__min"]
 		context["avg_level"] = context["data_list"].aggregate(Avg('value'))["value__avg"]

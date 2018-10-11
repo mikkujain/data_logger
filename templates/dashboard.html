@@ -68,6 +68,11 @@
                 </div>
             </div>
             <div class="col-lg-6">
+            {% if errors %}
+                {% for e in errors %}
+                    <p class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{ e }}</p>
+                {% endfor %}
+            {% endif %}
                 <div class="">
                     <div class="col-lg-6">
                         <div class="panel panel-info">
@@ -96,37 +101,6 @@
                                     <a href="#" class="list-group-item">
                                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Alert Times
                                         <span class="pull-right text-muted small"><strong>{{ today_alert_times }}</strong>
-                                        </span>
-                                    </a>
-                                </div>
-                                <!-- /.list-group -->
-                                <a href="#" class="btn btn-default btn-block">View All Alerts</a>
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <i class="fa fa-bell fa-fw"></i>
-                                <strong>Sms Notifications</strong>
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item">
-                                        <i class="fa fa-comment fa-fw"></i> New Comment
-                                        <span class="pull-right text-muted small"><em>4 minutes ago</em>
-                                        </span>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                        <span class="pull-right text-muted small"><em>12 minutes ago</em>
-                                        </span>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                        <span class="pull-right text-muted small"><em>27 minutes ago</em>
                                         </span>
                                     </a>
                                 </div>
