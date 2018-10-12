@@ -1,15 +1,28 @@
-import SocketServer
+import socket
+from tcpFunctions import *
 
-class MyTCPHandler(SocketServer.BaseRequestHandler):
+s = socket.socket()
+s.bind(("localhost",5000))
+s.listen(5)
+dic = {}
 
-    def handle(self):
-        self.data = self.request.recv(1024).strip()
-        print "{} wrote:".format(self.client_address[0])
-        print self.data
-        # just send back the same data, but upper-cased
-        self.request.sendall(self.data.upper())
+while True:
+	c, addr = s.accept()
+	data = c.recv(1024)
+	print("data", data)
+	data = data.decode('utf-8').split(";")
+	for i in data:
+		try:
+			dic[i.split(":")[0]] = i.split(":")[1]
+		except Exception as e:
+			print(e, "for i", i)
+	ports = getDevice(dic["#STH"])
+	values = {}
+	if ports:
+		for p in ports:
+			values[p[0]] = dic[p[1]]
+		print("values", values)
+		createData(values)
+		print("created data")
+	c.close()
 
-if __name__ == "__main__":
-    HOST, PORT = "localhost", 9999
-    server = SocketServer.TCPServer((HOST, PORT), MyTCPHandler)
-    server.serve_forever()
