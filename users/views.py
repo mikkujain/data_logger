@@ -23,10 +23,10 @@ class Dashboard(LoginRequiredMixin, ListView):
 		return queryset
 
 	def get_context_data(self, **kwargs):
-		startd = self.request.GET.get('start-date')
-		endd = self.request.GET.get('end-date')
 		# Call the base implementation first to get a context
 		context = super(Dashboard, self).get_context_data(**kwargs)
+		startd = self.request.GET.get('start-date')
+		endd = self.request.GET.get('end-date')
 		if self.request.GET.get('date'):
 			try:
 				today = datetime.strptime(self.request.GET.get('date'), '%Y-%m-%d').date()
