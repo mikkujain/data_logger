@@ -60,7 +60,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for d in data_list %}
+                                {% for d in device1 %}
                                     <tr>
                                         <td>{{ d.datetime.date }}</td>
                                         <td>{{ d.datetime.time }}</td>
@@ -83,17 +83,17 @@
                                 <div class="list-group">
                                     <a href="#" class="list-group-item">
                                         <i class="fa fa-arrow-up" aria-hidden="true"></i> Maximum Level
-                                        <span class="pull-right text-muted small"><strong>{{ max_level }}</strong>
+                                        <span class="pull-right text-muted small"><strong>{{ device1_max }}</strong>
                                         </span>
                                     </a>
                                     <a href="#" class="list-group-item">
                                         <i class="fa fa-arrow-down" aria-hidden="true"></i> Minimum Level
-                                        <span class="pull-right text-muted small"><strong>{{ min_level }}</strong>
+                                        <span class="pull-right text-muted small"><strong>{{ device1_min }}</strong>
                                         </span>
                                     </a>
                                     <a href="#" class="list-group-item">
                                         <i class="fa fa-line-chart" aria-hidden="true"></i> Average Level
-                                        <span class="pull-right text-muted small"><strong>{{ avg_level }}</strong>
+                                        <span class="pull-right text-muted small"><strong>{{ device1_avg }}</strong>
                                         </span>
                                     </a>
                                     <a href="#" class="list-group-item">
@@ -137,7 +137,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for d in data_list %}
+                                {% for d in device2 %}
                                     <tr>
                                         <td>{{ d.datetime.date }}</td>
                                         <td>{{ d.datetime.time }}</td>
@@ -160,17 +160,17 @@
                                 <div class="list-group">
                                     <a href="#" class="list-group-item">
                                         <i class="fa fa-arrow-up" aria-hidden="true"></i> Maximum Level
-                                        <span class="pull-right text-muted small"><strong>{{ max_level }}</strong>
+                                        <span class="pull-right text-muted small"><strong>{{ device2_max }}</strong>
                                         </span>
                                     </a>
                                     <a href="#" class="list-group-item">
                                         <i class="fa fa-arrow-down" aria-hidden="true"></i> Minimum Level
-                                        <span class="pull-right text-muted small"><strong>{{ min_level }}</strong>
+                                        <span class="pull-right text-muted small"><strong>{{ device2_min }}</strong>
                                         </span>
                                     </a>
                                     <a href="#" class="list-group-item">
                                         <i class="fa fa-line-chart" aria-hidden="true"></i> Average Level
-                                        <span class="pull-right text-muted small"><strong>{{ avg_level }}</strong>
+                                        <span class="pull-right text-muted small"><strong>{{ device2_avg }}</strong>
                                         </span>
                                     </a>
                                     <a href="#" class="list-group-item">
