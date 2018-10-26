@@ -16,7 +16,7 @@ class Devices(models.Model):
 		return '{} id {}'.format(self.device_id, self.name)
 
 class Ports(models.Model):
-	port_name = models.CharField(max_length=5, unique=True)
+	port_name = models.CharField(max_length=5)
 	device = models.ForeignKey(Devices, on_delete=models.CASCADE)
 	datetime = models.DateTimeField(default=datetime.now, blank=True)
 	alert_level = models.FloatField()
