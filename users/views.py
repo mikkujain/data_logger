@@ -13,6 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from graphos.sources.simple import SimpleDataSource
 from graphos.renderers import gchart
 
+
 class Dashboard(LoginRequiredMixin, ListView):
 	model = (Devices, Mobile, Sms, Ports, Data)
 	template_name = "dashboard.html"
@@ -52,6 +53,7 @@ class Dashboard(LoginRequiredMixin, ListView):
 			dv = Devices.objects.all()
 			context["device1"] = context["data_list"].filter(port__device=dv[0])
 			context["device2"] = context["data_list"].filter(port__device=dv[1])
+		print("devices", context)
 		context['mobile'] = Mobile.objects.all()
 		context["device1_max"] = context["device1"].aggregate(Max('value'))["value__max"]
 		context["device1_min"] = context["device1"].aggregate(Min('value'))["value__min"]
@@ -68,7 +70,7 @@ class Dashboard(LoginRequiredMixin, ListView):
 			data = [['DateTime', 'Water']]
 			for i in context['device1']:
 				data.append([i.datetime.strftime("%d/%m/%y %H:%I %p"), i.value])
-			chart = gchart.LineChart(SimpleDataSource(data=data), options={'title': 'Water Level'}, height=400, width=600)
+			chart = gchart.ColumnChart(SimpleDataSource(data=data), options={'title': 'Water Level'}, height=400, width=600)
 			context["chart"] = chart
 		# return context
 
@@ -76,6 +78,6 @@ class Dashboard(LoginRequiredMixin, ListView):
 			data1 = [['DateTime','Water']]
 			for i in context['device2']:
 				data1.append([i.datetime.strftime("%d/%m/%y %H:%I %p"), i.value])
-			chart1 = gchart.LineChart(SimpleDataSource(data=data1), options={'title': 'Water Level'}, height=400, width=600)
+			chart1 = gchart.ColumnChart(SimpleDataSource(data=data1), options={'title': 'Water Level'}, height=400, width=600)
 			context["chart1"] = chart1
 		return context
