@@ -12,6 +12,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from graphos.sources.simple import SimpleDataSource
 from graphos.renderers import gchart
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import render
 
 
 class Dashboard(LoginRequiredMixin, ListView):
@@ -81,3 +83,20 @@ class Dashboard(LoginRequiredMixin, ListView):
 			chart1 = gchart.ColumnChart(SimpleDataSource(data=data1), options={'title': 'Water Level'}, height=400, width=600)
 			context["chart1"] = chart1
 		return context
+
+class Pages(LoginRequiredMixin, ListView):
+	model = (Devices, Data)
+	template_name = "list.html"
+	login_url = '/'
+	paginate_by = 2
+
+	def get_queryset(self):
+		start_date = self.kwargs['start_date']
+		end_date = self.kwargs['end_date']
+		dv = Devices.objects.all()
+		print(dv)
+		queryset = Data.objects.filter(port__device=dv[0],datetime__date__range=[start_date, end_date])
+		return queryset
+
+		
+
