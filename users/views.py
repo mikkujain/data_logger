@@ -47,6 +47,7 @@ class Dashboard(LoginRequiredMixin, ListView):
 				dv = Devices.objects.all()
 				context["device1"]   = context["data_list"].filter(port__device=dv[0])
 				context["device2"] 	 = context["data_list"].filter(port__device=dv[1])
+				return context
 			except Exception as e:
 				context['errors'] = ["Invalid Date Format Selected"]
 		else:
