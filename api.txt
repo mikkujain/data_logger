@@ -1,0 +1,1 @@
+http://114.254.13.215:8990/gxhy/agreement/sendCommonMessage?userName=xpl&deviceId=1700000001&alarmType=C60801&alarmLevel=BF1A040000&alarmInterval=BB101000&alarmGroup=0000000001&type=16
