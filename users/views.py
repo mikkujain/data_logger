@@ -31,7 +31,7 @@ class Dashboard(LoginRequiredMixin, TemplateView):
 		if self.request.GET.get('date'):
 			try:
 				today = datetime.strptime(self.request.GET.get('date'), '%Y-%m-%d').date()
-				context["data_list"] = context["data_list"].filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day).order_by("datetime")
+				context["data_list"] = Data.objects.filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day).order_by("datetime")
 				dv = Devices.objects.all()
 				context["device1"]   = context["data_list"].filter(port__device=dv[0])
 				context["device2"] 	 = context["data_list"].filter(port__device=dv[1])
@@ -42,7 +42,7 @@ class Dashboard(LoginRequiredMixin, TemplateView):
 			try:
 				startd = datetime.strptime(startd, '%Y-%m-%d').date()
 				endd = datetime.strptime(endd, '%Y-%m-%d').date()
-				context["data_list"] = context["data_list"].filter(datetime__date__range=[startd, endd])
+				context["data_list"] = Data.objects.filter(datetime__date__range=[startd, endd])
 				dv = Devices.objects.all()
 				context["device1"]   = context["data_list"].filter(port__device=dv[0])
 				context["device2"] 	 = context["data_list"].filter(port__device=dv[1])
@@ -51,7 +51,7 @@ class Dashboard(LoginRequiredMixin, TemplateView):
 				return context
 		else:
 			today = datetime.today()
-			context["data_list"] = context["data_list"].filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day).order_by("datetime")
+			context["data_list"] = Data.objects.filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day).order_by("datetime")
 			dv = Devices.objects.all()
 			context["device1"] = context["data_list"].filter(port__device=dv[0])
 			context["device2"] = context["data_list"].filter(port__device=dv[1])
