@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic import ListView
+from django.views.generic.base import TemplateView
 from devices.models import *
 from django.utils.timezone import datetime #important if using timezones
 from django.db.models import Max, Min, Avg
@@ -14,14 +14,14 @@ from graphos.sources.simple import SimpleDataSource
 from graphos.renderers import gchart
 
 
-class Dashboard(LoginRequiredMixin, ListView):
+class Dashboard(LoginRequiredMixin, TemplateView):
 	model = (Devices, Mobile, Sms, Ports, Data)
 	template_name = "dashboard.html"
 	login_url = '/'
 
-	def get_queryset(self):
-		queryset = Data.objects.all()
-		return queryset
+	# def get_queryset(self):
+	# 	queryset = Data.objects.all()
+	# 	return queryset
 
 	def get_context_data(self, **kwargs):
 		# Call the base implementation first to get a context
@@ -37,6 +37,7 @@ class Dashboard(LoginRequiredMixin, ListView):
 				context["device2"] 	 = context["data_list"].filter(port__device=dv[1])
 			except Exception as e:
 				context['errors'] = ["Invalid Date Format Selected"]
+				return context
 		elif startd and endd:
 			try:
 				startd = datetime.strptime(startd, '%Y-%m-%d').date()
@@ -47,6 +48,7 @@ class Dashboard(LoginRequiredMixin, ListView):
 				context["device2"] 	 = context["data_list"].filter(port__device=dv[1])
 			except Exception as e:
 				context['errors'] = ["Invalid Date Format Selected"]
+				return context
 		else:
 			today = datetime.today()
 			context["data_list"] = context["data_list"].filter(datetime__year=today.year, datetime__month=today.month, datetime__day=today.day).order_by("datetime")

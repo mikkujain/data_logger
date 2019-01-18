@@ -13,12 +13,14 @@
     {% include 'navbar.html' %}
     <section class="container-fluid">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-12">
                 {% if errors %}
                     {% for e in errors %}
-                        <p class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{ e }}</p>
+                        <p class="alert alert-danger alert-dismissible"><a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{ e }}</p>
                     {% endfor %}
                 {% endif %}
+            </div>
+            <div class="col-lg-6">
                 <div class="">
                     <h3 class="text-center alert alert-info">JAGAT PUR</h3>
                 </div>
@@ -91,11 +93,6 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                {% if errors %}
-                    {% for e in errors %}
-                        <p class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{ e }}</p>
-                    {% endfor %}
-                {% endif %}
                 <div class="">
                     <h3 class="text-center alert alert-info">PALLA CHECK POST</h3>
                 </div>
